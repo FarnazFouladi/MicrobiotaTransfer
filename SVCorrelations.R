@@ -139,8 +139,16 @@ for (week in 1:4){
 p.adjust(sort(pFisher),method = "BH")
 #No significant p-value after adjustment
 
+pdf("CorrelationswithPhenotype.pdf",width = 8,height = 8)
+for (i in c(1,10,19)){
+  grid.arrange(myList[[i]],myList[[i+1]],myList[[i+2]],myList[[i+3]],
+            myList[[i+4]],myList[[i+5]],myList[[i+6]],myList[[i+7]],myList[[i+8]],nrow=3,ncol=3)
+}
+plot_grid(myList[[i+9]],myList[[i+10]],myList[[i+11]],myList[[i+12]],
+          myList[[i+13]],nrow=3,ncol=3,scale = 0.9)
+dev.off()
 
-png("svLogpInteractionByVariablesPanelPaper.png", units="in", width=8, height=8,res=300)
+png("SignificantCorrelationswithPhenotype.png", units="in", width=8, height=8,res=300)
 plot_grid(myList[[11]],myList[[17]],myList[[25]],myList[[21]],
           myList[[27]],myList[[22]],myList[[28]],nrow=3,ncol=3,scale = 0.9)
 dev.off()
