@@ -186,7 +186,7 @@ finishAbundanceIndex<-which(colnames(mydata)=="Sample")-1
 myMDS<-capscale(mydata[,1:finishAbundanceIndex]~1,distance="bray")
 percentVariance<-myMDS$CA$eig/sum(eigenvals(myMDS))*100
 df<-data.frame(MDS1=myMDS$CA$u[,1],MDS2=myMDS$CA$u[,2],Sample_type=mydata$Sample.type,Donor=mydata$Donor)
-col=c("red","blue","orchid","purple","black","lightblue","hotpink","cyan","pink","tan","grey","gold")
+col=c("red","blue","orchid","purple","black","lightblue","hotpink","cyan","pink","tan","darkgrey","gold")
 df$Sample_type<-factor(df$Sample_type,levels = c("Human.donor","Fecal.slurry","Mouse.feces"))
 
 png("pcoA_1.png", units="in", width=5, height=5,res=300)
@@ -195,9 +195,16 @@ ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=Sample_type))+
   labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))
 dev.off()
 
+
+df$Donor_newName<-sapply(as.character(df$Donor),function(x){
+  if (substr(x,3,4)=="34") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","A"))
+  else if (substr(x,3,4)=="40") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","B"))
+  else if (substr(x,3,4)=="81") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","C"))
+  else if (substr(x,3,4)=="70") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","D"))
+})
 png("pcoA_2.png", units="in", width=5, height=5,res=300)
-ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=Donor,shape=Sample_type))+
-  scale_colour_manual(values=col[1:length(levels(factor(df$Donor)))])+
+ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(Donor_newName),shape=Sample_type))+
+  scale_colour_manual(values=col[1:length(levels(factor(df$Donor_newName)))],name="Donors")+
   scale_shape_manual(values=c(15,16,17),labels=c("Human fecal samples","Slurries","Mouse fecal pellets"),name="Sample type")+
   labs(x="MDS1 (13.11%)",y="MDS2 (11.43%)")
 dev.off()

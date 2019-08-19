@@ -15,7 +15,17 @@ sv<-data[,1:finishAbundanceIndex]
 sv<-sv[,colMeans(sv>0)>=0.1]
 myT<-cbind(sv,data[,(finishAbundanceIndex+1):ncol(data)])
 finishAbundanceIndex<-which(colnames(myT)=="Sample")-1
-Donors<-as.character(myT$Donor[myT$Sample.type=="Human.donor"])
+
+myT<-myT[myT$Sample.type=="Human.donor" | myT$Sample.type=="Fecal.slurry"| myT$Sample.type=="Mouse.feces", ]
+myT$Donor_newName<-sapply(as.character(myT$Donor),function(x){
+  if (substr(x,3,4)=="34") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","A"))
+  else if (substr(x,3,4)=="40") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","B"))
+  else if (substr(x,3,4)=="81") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","C"))
+  else if (substr(x,3,4)=="70") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","D"))
+})
+
+
+Donors<-as.character(myT$Donor_newName[myT$Sample.type=="Human.donor"])
 Slurry<-(myT[myT$Sample.type=="Fecal.slurry",])$Slurry.ID1
 Slurry<-Slurry[Slurry!="T1.slurry.EAN40"]#For this slurry there is no mouse
 
@@ -40,7 +50,7 @@ for ( i in 1:finishAbundanceIndex){
       mice<-vector()
       donorName<-vector()
       index<-1
-      donor<-myTweek[,"Donor"]
+      donor<-myTweek[,"Donor_newName"]
       bug<-myTweek[,i]
       
       for (slurry in Slurry){
@@ -68,7 +78,7 @@ for ( i in 1:finishAbundanceIndex){
         
         atext<-paste0(bugnames[outerindex], "\np-value= ", format(spearman[outerindex],digits=3)," rho= ",format(rho[outerindex],digits=3),
                       "\nweek= ",week)
-        col=c("red","blue","green","orange","purple","pink","black","lightblue","lightgreen","hotpink","cyan","orchid","tan","grey","gold","firebrick","deeppink")
+        col=c("red","blue","orchid","purple","black","lightblue","hotpink","cyan","pink","tan","darkgrey","gold")
         col1=col[factor(donorName)]
         plot (jitter(human),jitter(mice),main = atext,cex.main=0.75,col=col1,pch=16,xlab = "Abundance in slurries",ylab = "Abundance in paired mouse fecal pellets")
       } else {
