@@ -139,7 +139,7 @@ plot1<-plot+geom_signif(y_position=c(1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4), xmi
 myList[[index]]<-plot1
 index<-index+1
 
-#Find average abd sd for rho
+#Find average and sd for rho
 data4<-myT1[myT1$time==4,]
 ddply(data4,.(Class),colwise(mean))[,c(1,4)]
 ddply(data4,.(Class),colwise(sd))[,c(1,4)]
