@@ -106,17 +106,17 @@ for (i in 1:4)
 
 
 #For publication only at week1
-i=1
-meanPercentage<-c(as.numeric(format(df2[8,i],digit=4)),as.numeric(format(df2[9,i],digit=4)),as.numeric(format(df2[10,i],digit=4)))
-deviations<-c(as.numeric(format(df2[8,i+4],digits = 3)),as.numeric(format(df2[9,i+4],digits = 3)),as.numeric(format(df2[10,i+4],digits = 3)))
-slices<-paste(meanPercentage,"\u00b1",deviations,"%",sep="")
-labels<-c("Shared","Only in slurry","Only in mouse fecal pellet")
-labels<-paste(labels,"\n",slices)
+#i=1
+#meanPercentage<-c(as.numeric(format(df2[8,i],digit=4)),as.numeric(format(df2[9,i],digit=4)),as.numeric(format(df2[10,i],digit=4)))
+#deviations<-c(as.numeric(format(df2[8,i+4],digits = 3)),as.numeric(format(df2[9,i+4],digits = 3)),as.numeric(format(df2[10,i+4],digits = 3)))
+#slices<-paste(meanPercentage,"\u00b1",deviations,"%",sep="")
+#labels<-c("Shared","Only in slurry","Only in mouse fecal pellet")
+#labels<-paste(labels,"\n",slices)
 
-png("PieChartHumanSlurryMouseFeces.png", units="in", width=13, height=13,res=300)
-par(mfrow=c(2,1),mar=c(2,2,2,2))
-pie2(meanPercentage,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
-title(paste0("Paired analysis\nAverage percentage of sequence variants\n present in a slurry-mouse fecal pellet pair","\nWeek= ",i),line = -3,cex.main=1.1)
+#png("PieChartHumanSlurryMouseFeces.png", units="in", width=13, height=13,res=300)
+#par(mfrow=c(2,1),mar=c(2,2,2,2))
+#pie2(meanPercentage,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
+#title(paste0("Paired analysis\nAverage percentage of sequence variants\n present in a slurry-mouse fecal pellet pair","\nWeek= ",i),line = -3,cex.main=1.1)
 
 #Nonpaired analysis
 for (week in 1:4){
@@ -173,8 +173,3 @@ for (week in 1:4){
 
 dev.off()
 
-#For publication
-#week=1
-#pie2(slices,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
-#title(paste0("Non-paired analysis\nPercentage of sequence variants\n present in either any human slurries or mouse feces or both","\nWeek= ",week),line = -3,cex.main=1.2)
-#dev.off()
