@@ -16,7 +16,8 @@ myT<-cbind(sv,data[,(finishAbundanceIndex+1):ncol(data)])
 finishAbundanceIndex<-which(colnames(myT)=="Sample")-1
 
 #Removing Relative mesenteric fat and mesenteric fat
-myT<-myT[,-c(which(colnames(myT)=="Mes.fat.wt"),which(colnames(myT)=="Rel.mes.fat.wt"))]
+myT<-myT[,-c(which(colnames(myT)=="Mes.fat.wt"),which(colnames(myT)=="Rel.mes.fat.wt"),
+             which(colnames(myT)=="Brown.fat.wt"),which(colnames(myT)=="Rel.brown.fat.wt"))]
 myT1<-myT[myT$Sample.type=="Mouse.feces",]
 
 spearman<-vector()
@@ -54,7 +55,7 @@ for (i in 1:finishAbundanceIndex){
       }
       
       if (week==4){
-        for (j in which(colnames(myT)=="Cecum.wt"):which(colnames(myT)=="Rel.brown.fat.wt"))
+        for (j in which(colnames(myT)=="Cecum.wt"):which(colnames(myT)=="Rel.gonadal.fat.wt"))
         {
           variable<-myTweek[,j]
           spearman[index]<-cor.test(variable,bug,method="spearman")$p.value

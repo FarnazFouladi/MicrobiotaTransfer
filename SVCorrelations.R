@@ -129,7 +129,7 @@ for (week in 1:4){
       
       plot<-ggplot(myTweekVar,aes(x=SV,y=log10(adjustedSpearman),col=correlationWithHumanSV))+geom_point(size=1)+geom_hline(yintercept=log10(0.05), linetype="dashed", color="black", size=1)+
         labs(title=paste0(variable,"\nweek= ",week,"\nFisher p-value= ",format(P,digits = 2)),x="Rank abundance of SVs in mouse fecal pellets",y="Adjusted p-value")+
-        scale_color_manual(values =vals)+ylim(c(-5,0))+theme(legend.position = "none")
+        scale_color_manual(values =vals)+ylim(c(-3,0))+theme(legend.position = "none")
       myList[[index]]<-plot
       index<-index+1
     }
@@ -144,13 +144,12 @@ for (i in c(1,10,19)){
   grid.arrange(myList[[i]],myList[[i+1]],myList[[i+2]],myList[[i+3]],
             myList[[i+4]],myList[[i+5]],myList[[i+6]],myList[[i+7]],myList[[i+8]],nrow=3,ncol=3)
 }
-plot_grid(myList[[i+9]],myList[[i+10]],myList[[i+11]],myList[[i+12]],
-          myList[[i+13]],nrow=3,ncol=3,scale = 0.9)
+plot_grid(myList[[i+9]],myList[[i+10]],myList[[i+11]],nrow=3,ncol=3,scale = 0.9)
 dev.off()
 
 png("SignificantCorrelationswithPhenotype.png", units="in", width=8, height=8,res=300)
-plot_grid(myList[[11]],myList[[17]],myList[[25]],myList[[21]],
-          myList[[27]],myList[[22]],myList[[28]],nrow=3,ncol=3,scale = 0.9)
+plot_grid(myList[[11]],myList[[17]],NULL,myList[[24]],myList[[21]],NULL,
+          myList[[24]],nrow=3,ncol=3,scale = 0.9)
 dev.off()
 
 #Legend Extract
