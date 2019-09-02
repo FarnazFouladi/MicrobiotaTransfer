@@ -228,7 +228,7 @@ finishAbundanceIndex<-which(colnames(mydata)=="Sample")-1
 myMDS<-capscale(mydata[,1:finishAbundanceIndex]~1,distance="bray")
 percentVariance<-myMDS$CA$eig/sum(eigenvals(myMDS))*100
 df<-data.frame(MDS1=myMDS$CA$u[,1],MDS2=myMDS$CA$u[,2],Donor=mydata$Donor,time=mydata$Week)
-col=c("red","blue","green3","orange","purple","pink","black","lightblue","lightgreen","hotpink","cyan","orchid","tan","grey","gold")
+col=c("red","blue","orchid","orange")
 
 png("pcoA_3.png", units="in", width=5, height=5,res=300)
 ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(time)))+
