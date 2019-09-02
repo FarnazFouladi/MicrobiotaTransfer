@@ -47,24 +47,69 @@ plot<-myPlot(myT1,"Phylum",1)
 plot1<-plot+geom_signif(y_position=c(1), xmin=c(2), xmax=c(3),annotation=c("***"), tip_length=0,vjust = 0.5,textsize =2)+theme(legend.position = "none")
 myList[[index]]<-plot1
 index<-index+1
+
+#Extract Legend
+plot<-ggplot(data=myT1,aes(x=Phylum,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Phylum,labels=c("Actinobacteria (12)","Bacteroidetes (39)","Firmicutes (211)","Proteobacteria (7)","Verrucomicrobia (2)"))))+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  labs(title="",fill="Phylum")
+
+png("legendPhylumRho.png", units="in", width=8, height=8,res=300)
+legendp <- cowplot::get_legend(plot)
+grid.newpage()
+grid.draw(legendp)
+dev.off()
+
 #Week1, Class
 tukeyResult(myT1,"Class",1)
 plot<-myPlot(myT1,"Class",1)
 plot1<-plot+geom_signif(y_position=c(1,1.05), xmin=c(3,3), xmax=c(5,8),annotation=c("***","**"), tip_length=0,vjust = 0.5,textsize =2)
 myList[[index]]<-plot1
 index<-index+1
+
+#ExtractLegend
+plot<-ggplot(data=myT1,aes(x=Class,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Class,labels=c("Actinobacteria (1)","Bacilli(3)","Bacteroidia (39)","Betaproteobacteria (4)","Clostridia (188)","Coriobacteriia (11)","Deltaproteobacteria (2)","Erysipelotrichia (18)","Gammaproteobacteria (1)","Negativicutes (2)","Verrucomicrobiae (2)"))))+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  labs(title="",fill="Class")
+png("legendClassRho.png", units="in", width=8, height=8,res=300)
+legendp <- cowplot::get_legend(plot)
+grid.newpage()
+grid.draw(legendp)
+dev.off()
+
 #Week1, Order
 tukeyResult(myT1,"Order",1)
 plot<-myPlot(myT1,"Order",1)
 plot1<-plot+geom_signif(y_position=c(1,1.05), xmin=c(1,1), xmax=c(4,8),annotation=c("***","**"), tip_length=0,vjust = 0.5,textsize =2)
 myList[[index]]<-plot1
 index<-index+1
+
+#Extract legend
+plot<-ggplot(data=myT1,aes(x=Order,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Order,labels=c("Bacteroidales (39)","Bifidobacteriales (1)","Burkholderiales (4)","Clostridiales (187)","Coriobacteriales (11)","Desulfovibrionales (2)","Enterobacteriales (1)","Erysipelotrichales (18)","Lactobacillales (3)","Selenomonadales (2)","Verrucomicrobiales (2)"))))+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  labs(title="",fill="Order")
+png("legendOrderRho.png", units="in", width=8, height=8,res=300)
+legendp <- cowplot::get_legend(plot)
+grid.newpage()
+grid.draw(legendp)
+dev.off()
+
 #Week1, Family
 tukeyResult(myT1,"Family",1)
 plot<-myPlot(myT1,"Family",1)
 plot1<-plot+geom_signif(y_position=c(1,1.05,1.1,1.15), xmin=c(3,3,14,14), xmax=c(14,21,18,19),annotation=c("***","**","**","*"), tip_length=0,vjust = 0.5,textsize =2)
 myList[[index]]<-plot1
 index<-index+1
+
+#Extract legend
+plot<-ggplot(data=myT1,aes(x=Family,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Family,labels=c("Acidaminococcaceae (1)","Alcaligenaceae (3)","Bacteroidaceae (17)","Bifidobacteriaceae (1)","Christensenellaceae (5)","Coriobacteriaceae (11)","Defluviitaleaceae (2)","Desulfovibrionaceae (2)","Enterobacteriaceae (1)","Enterococcaceae (1)","Erysipelotrichaceae (18)","Eubacteriaceae  (3)","Family_XIII (10)","Lachnospiraceae (95)","Lactobacillaceae (1)","Oxalobacteraceae (1)","Peptostreptococcaceae (2)","Porphyromonadaceae (8)","Prevotellaceae (6)","Rikenellaceae (8)","Ruminococcaceae (67)","Streptococcaceae (1)","Veillonellaceae (1)","Verrucomicrobiaceae (2)"))))+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7) ,legend.key.size = unit(0.8,"line"))+
+  labs(title="",fill="Family")
+png("legendFamilyRho.png", units="in", width=8, height=8,res=300)
+legendp <- cowplot::get_legend(plot)
+grid.newpage()
+grid.draw(legendp)
+dev.off()
+
 #Week2, Phylum
 tukeyResult(myT1,"Phylum",2)
 plot<-myPlot(myT1,"Phylum",2)
