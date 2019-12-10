@@ -13,6 +13,8 @@ output<-"/Users/farnazfouladi/Google Drive/MicrobiotaTransfer/output/"
 input<-"/Users/farnazfouladi/Google Drive/MicrobiotaTransfer/input/"
 setwd(output)
 data<-read.table(paste0(output,"svMeta.txt"),sep = "\t",header=TRUE,check.names=FALSE,na.strings = "NA" ,comment.char="")
+#Slecect the time point
+week=1
 
 finishAbundanceIndex<-which(colnames(data)=="Sample")-1
 #Removing low abundant sv
@@ -33,7 +35,7 @@ df<-data.frame(names,sum)
 df<-df[order(df$sum,decreasing = TRUE),]
 df$rank<-rank(df$sum)
 # Ordering SVs based on their abundance in mice
-myTMouse<-myT[myT$Sample.type=="Mouse.feces" & myT$Week==1,]
+myTMouse<-myT[myT$Sample.type=="Mouse.feces" & myT$Week==week,]
 names<-colnames(myTMouse[,1:finishAbundanceIndex])
 sum<-colSums(myTMouse[,1:finishAbundanceIndex])
 dfMouse<-data.frame(names,sum)
@@ -48,7 +50,8 @@ myT<-cbind(sv,meta)
 # Deteriming the probability of shared/only in mouse/only in slurry/nogroup for each sv at week1
 myT1<-myT[myT$Sample.type=="Mouse.feces"| myT$Sample.type=="Fecal.slurry",]
 Slurry<-(myT1[myT1$Sample.type=="Fecal.slurry",])$Slurry.ID1
-Slurry<-Slurry[Slurry!="T1.slurry.EAN40"]#For this slurry there is no mouse
+Slurry<-Slurry[Slurry%in% myTMouse$Slurry.ID1]
+
 DF<-data.frame(probability=c("pShared","pMouse","pSlurry","noGroup"))
 
 for (i in 1:finishAbundanceIndex){
@@ -62,7 +65,7 @@ for (i in 1:finishAbundanceIndex){
   for (slurry in Slurry){
     
     bugS<-myT1[myT1$Sample.type=="Fecal.slurry" & myT1$Slurry.ID1==slurry,i]
-    bugM<-myT1[myT1$Sample.type=="Mouse.feces" & myT1$Slurry.ID1==slurry & myT1$Week==1,i]
+    bugM<-myT1[myT1$Sample.type=="Mouse.feces" & myT1$Slurry.ID1==slurry & myT1$Week==week,i]
     number<-number+length(bugM)
     
     for (j in 1:length(bugM))
@@ -90,13 +93,13 @@ DF<-as.data.frame(t(DF))
 colnames(DF)<-c("pShared","pMouse","pSlurry","noGroup")
 DF<-DF[-1,]
 DF$rank<-df$rank
-write.table(DF,"probabilityforEachSeqWeek1.txt",sep="\t")
+write.table(DF,paste0("probabilityforEachSeqWeek",week,".txt"),sep="\t")
 
 DF$names<-rownames(DF)
 DF1<-merge(DF,dfMouse,by.x ="names",by.y ="names",all.x = TRUE,sort = FALSE)
 DF2<-merge(DF1,taxa1,by.x ="names",by.y ="names",all.x = TRUE,sort = FALSE)
 row.names(DF2)<-DF2$names
-write.table(DF2,"probabilityforEachSeqWeek1withTaxa.txt",sep="\t")
+write.table(DF2,paste0("probabilityforEachSeqWeek",week,"withTaxa.txt"),sep="\t")
 
 # Extracting Legend
 
@@ -123,7 +126,7 @@ S<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pSlurry))))+geom
 M<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pMouse))))+geom_point(col="orchid",aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(x="Rank abundance of SVs in slurries",y="Probability of being only in mouse fecal pellets")+scale_size_ordinal(range=c(1,3))+theme(legend.position = "none")
 
-png("probabilitySlurryMiceTransfer.png", units="in", width=6, height=6,res=300)
+png(paste0("probabilitySlurryMiceTransferWeek",week,".png"), units="in", width=6, height=6,res=300)
 plot_grid(SH,M,S, align = 'h',ncol=2,nrow=2,label_size = 12,scale = 0.9)
 dev.off()
 
@@ -132,7 +135,7 @@ dev.off()
 DF3<-DF2[as.numeric(as.character(DF2$pShared))<0.25 & DF2$rank.x>200,] #32 bugs
 rownames(DF3)<-DF3$names
 DF5<-DF2[as.numeric(as.character(DF2$pShared))>=0.25 & DF2$rank.x>200,]
-write.table(DF3,"taxawithlowChanceofTransfer.txt",sep="\t",row.names = FALSE)
+write.table(DF3,paste0("taxawithlowChanceofTransferWeek",week,".txt"),sep="\t",row.names = FALSE)
 #Fisher test
 DF_Fisher<-data.frame(Group=c("high pShared","low pShared"))
 Taxa<-c("Firmicutes","Bacteroidetes","Proteobacteria","Actinobacteria","Verrucomicrobia")
@@ -147,8 +150,8 @@ for (taxa in Taxa){
 DF_Fisher1<-DF_Fisher[1,which(colnames(DF_Fisher)=="fisherTest")]
 AdjustedP<-p.adjust(DF_Fisher1,method = "BH")
 DF_Fisher2<-data.frame(taxa=Taxa,AsjustedPvals=AdjustedP)
-write.table(DF_Fisher,"lowVersusHighTransferFishertest.txt",sep = "\t")
-write.table(DF_Fisher2,"lowVersusHighTransferFishertestAdjustedP.txt",sep = "\t")
+write.table(DF_Fisher,paste0("lowVersusHighTransferFishertestWeek",week,".txt"),sep = "\t")
+write.table(DF_Fisher2,paste0("lowVersusHighTransferFishertestAdjustedPWeek",week,".txt"),sep = "\t")
 
 # low abundant slurry SVs that had high probbaility of finding in only mice pmouse>0.25 (Supplementary Table 2):
 DF4<-DF2[as.numeric(as.character(DF2$pMouse))>0.25,]
@@ -169,8 +172,8 @@ for (taxa in Taxa){
 DF_Fisher1<-DF_Fisher[1,which(colnames(DF_Fisher)=="fisherTest")]
 AdjustedP<-p.adjust(DF_Fisher1,method = "BH")
 DF_Fisher2<-data.frame(taxa=Taxa,AsjustedPvals=AdjustedP)
-write.table(DF_Fisher,"taxawithhigherChanceofbeingFoundOnlyinMiceFishertest.txt",sep = "\t")
-write.table(DF_Fisher2,"taxawithhigherChanceofbeingFoundOnlyinMiceFishertestAdjustedP.txt",sep = "\t")
+write.table(DF_Fisher,paste0("taxawithhigherChanceofbeingFoundOnlyinMiceFishertestWeek",week,".txt"),sep = "\t")
+write.table(DF_Fisher2,paste0("taxawithhigherChanceofbeingFoundOnlyinMiceFishertestAdjustedPWeek",week,".txt"),sep = "\t")
 
 # SVs that are correlated between human and mice at week1:
 myData<-read.table(paste0(output,"SlurryVsMouseCor.txt"),header = TRUE,sep = "\t")
@@ -181,7 +184,7 @@ DF7<-DF2[intersect(rownames(DF2),CorrelatedSV),]
 write.table(DF7,"CorrelatedSVprobabs.txt",row.names = FALSE,sep="\t")
 
 
-# SVs that are correlated between human and mice:
+# SVs that are not correlated between human and mice at week 1:
 myData2<-myData[myData$adjustedSpearman>0.05&myData$time==1,]
 nonCorrelatedSV<-as.character(myData$bugnames)
 DF8<-DF2[intersect(rownames(DF2),nonCorrelatedSV),]
