@@ -189,7 +189,7 @@ df<-data.frame(MDS1=myMDS$CA$u[,1],MDS2=myMDS$CA$u[,2],Sample_type=mydata$Sample
 col=c("red","blue","orchid","purple","black","lightblue","hotpink","cyan","pink","tan","darkgrey","gold")
 df$Sample_type<-factor(df$Sample_type,levels = c("Human.donor","Fecal.slurry","Mouse.feces"))
 
-png("pcoA_1.png", units="in", width=5, height=5,res=300)
+png("pcoA_1.png", units="in", width=8, height=5,res=300)
 ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=Sample_type))+
   scale_colour_manual(values=col[1:length(levels(factor(df$Sample_type)))],labels=c("Human fecal samples","Slurries","Mouse fecal pellets"),name="Sample type")+
   labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))
@@ -202,7 +202,7 @@ df$Donor_newName<-sapply(as.character(df$Donor),function(x){
   else if (substr(x,3,4)=="81") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","C"))
   else if (substr(x,3,4)=="70") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","D"))
 })
-png("pcoA_2.png", units="in", width=5, height=5,res=300)
+png("pcoA_2.png", units="in", width=8, height=5,res=300)
 ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(Donor_newName),shape=Sample_type))+
   scale_colour_manual(values=col[1:length(levels(factor(df$Donor_newName)))],name="Donors")+
   scale_shape_manual(values=c(15,16,17),labels=c("Human fecal samples","Slurries","Mouse fecal pellets"),name="Sample type")+
@@ -222,6 +222,7 @@ Total              683   141.314                 1.00000
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 "
 
+
 #Mouse data and time
 mydata<-data4[data4$Sample.type=="Mouse.feces",]
 finishAbundanceIndex<-which(colnames(mydata)=="Sample")-1
@@ -235,3 +236,45 @@ ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(time)))+
   scale_colour_manual(values=col[1:length(levels(factor(df$time)))],labels=c("Week 1","Week 2","Week 3","Week 4"),name="Time")+
   labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))
 dev.off()
+
+#How much variation in the mouse microbiome data is explained by fecal samples and slurry samples
+adonis(mydata[,1:finishAbundanceIndex] ~ mydata$Donor)
+"
+Call:
+adonis(formula = mydata[, 1:finishAbundanceIndex] ~ mydata$Donor) 
+
+Permutation: free
+Number of permutations: 999
+
+Terms added sequentially (first to last)
+
+Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+mydata$Donor  11    77.884  7.0804  125.06 0.69878  0.001 ***
+Residuals    593    33.573  0.0566         0.30122           
+Total        604   111.457                 1.00000           
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+"
+
+adonis(mydata[,1:finishAbundanceIndex] ~ factor(mydata$Slurry.ID1))
+"
+Call:
+adonis(formula = mydata[, 1:finishAbundanceIndex] ~ factor(mydata$Slurry.ID1)) 
+
+Permutation: free
+Number of permutations: 999
+
+Terms added sequentially (first to last)
+
+Df SumsOfSqs MeanSqs F.Model      R2
+factor(mydata$Slurry.ID1)  68    85.072 1.25106  25.415 0.76328
+Residuals                 536    26.385 0.04923         0.23672
+Total                     604   111.457                 1.00000
+Pr(>F)    
+factor(mydata$Slurry.ID1)  0.001 ***
+Residuals                           
+Total                               
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+"
