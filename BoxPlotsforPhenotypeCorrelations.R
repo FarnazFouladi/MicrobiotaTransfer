@@ -1,7 +1,7 @@
 #Farnaz Fouladi
 #08-18-2019
 
-#This R code generates Supplementary Figure 7 and Figure 6B. 
+#This R code compares correlations between SVs and phenotypes between taxa. 
 
 rm(list = ls())
 
@@ -76,9 +76,10 @@ index<-index+1
 
 #Extract Legend
 plot<-ggplot(data=myT1,aes(x=Phylum,y=-log10(adjustedSpearman)))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Phylum,labels=c("Actinobacteria (12)","Bacteroidetes(39)","Firmicutes (198)","Proteobacteria (7)","Verrucomicrobia (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.title = element_text(size = 8),
+        legend.key.size = unit(0.7,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
   labs(title="Fat mass percentage change\nWeek=2",fill="Phylum")+geom_signif(y_position=c(3.5, 3.5), xmin=c(2), xmax=c(3),annotation=c("*"), tip_length=0,vjust = 0.5,textsize =4)
-png("legendPhylumIntercation.png", units="in", width=8, height=8,res=300)
+pdf("legendPhylumIntercation.pdf",height = 1,width = 2)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -107,9 +108,10 @@ index<-index+1
 #Extract Legend
 
 plot<-ggplot(data=myT1,aes(x=Class,y=-log10(adjustedSpearman)))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Class,labels=c("Actinobacteria (1)","Bacilli(3)","Bacteroidia (39)","Betaproteobacteria (4)","Clostridia (177)","Coriobacteriia (11)","Deltaproteobacteria (2)","Erysipelotrichia (17)","Gammaproteobacteria (1)","Negativicutes (1)","Verrucomicrobiae (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.title = element_text(size = 8),
+        legend.key.size = unit(0.7,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
   labs(title="Fat mass percentage change\nWeek=3",fill="Class")+geom_signif(y_position=c(3), xmin=c(3), xmax=c(5),annotation=c("**"), tip_length=0,vjust = 0.5,textsize =4)
-png("legendClassIntercation.png", units="in", width=8, height=8,res=300)
+pdf("legendClassInteraction.pdf",height = 2,width = 3)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -131,9 +133,10 @@ index<-index+1
 
 #Extract legend
 plot<-ggplot(data=myT1,aes(x=Order,y=-log10(adjustedSpearman)))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Order,labels=c("Bacteroidales (39)","Bifidobacteriales (1)","Burkholderiales (4)","Clostridiales (177)","Coriobacteriales (11)","Desulfovibrionales (2)","Enterobacteriales (1)","Erysipelotrichales (17)","Lactobacillales (3)","Selenomonadales (1)","Verrucomicrobiales (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
+  theme(axis.text.x = element_blank(),legend.title = element_text(size = 8),
+        legend.text = element_text(size=7),legend.key.size = unit(0.7,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
   labs(title="Fat mass percentage change\nWeek=3",fill="Order")+geom_signif(y_position=c(3), xmin=c(1), xmax=c(4),annotation=c("**"), tip_length=0,vjust = 0.5,textsize =3)
-png("legendOrderIntercation.png", units="in", width=8, height=8,res=300)
+pdf("legendOrderInteraction.pdf",height = 2,width = 3)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -155,9 +158,10 @@ index<-index+1
 
 #Extract legend
 plot<-ggplot(data=myT1,aes(x=Family,y=-log10(adjustedSpearman)))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Family,labels=c("Acidaminococcaceae (1)","Alcaligenaceae (3)","Bacteroidaceae (17)","Bifidobacteriaceae (1)","Christensenellaceae (5)","Coriobacteriaceae (11)","Defluviitaleaceae (2)","Desulfovibrionaceae (2)","Enterobacteriaceae (1)","Enterococcaceae (1)","Erysipelotrichaceae (17)","Eubacteriaceae  (3)","Family_XIII (9)","Lachnospiraceae (90)","Lactobacillaceae (1)","Oxalobacteraceae (1)","Peptostreptococcaceae (1)","Porphyromonadaceae (8)","Prevotellaceae (6)","Rikenellaceae (8)","Ruminococcaceae (64)","Streptococcaceae (1)","Verrucomicrobiaceae (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7) ,legend.key.size = unit(0.8,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7) ,legend.title = element_text(size = 8),
+        legend.key.size = unit(0.7,"line"))+geom_hline(yintercept=-log10(0.05), linetype="dashed", color="black", size=1)+labs(y="-log10(adjusted p-value)",x="")+
   labs(title="Fat mass percentage change\nWeek=3",fill="Family")+geom_signif(y_position=c(3.2,3.4,3.6,3.8), xmin=c(2,2,2,2), xmax=c(6,13,14,21),annotation=c("*","*","*","*"), tip_length=0,vjust = 0.5,textsize =2)
-png("legendFamilyIntercation.png", units="in", width=8, height=8,res=300)
+pdf("legendFamilyInteraction.pdf",height = 2,width = 4)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -171,6 +175,7 @@ index<-index+1
 
 
 png("boxPlotsforALLtaxaCorrelationPhenotypePanel.png", units="in", width=10, height=10,res=300)
+pdf("boxPlotsforALLtaxaCorrelationPhenotypePanel.pdf",height = 10,width = 10)
 plot_grid(myList[[1]],myList[[2]],myList[[3]],NULL,myList[[4]],myList[[5]],
           NULL,myList[[6]],myList[[7]],NULL,myList[[8]],myList[[9]],
           nrow=4,ncol=3,scale=0.9)
