@@ -14,7 +14,7 @@ input<-"/Users/farnazfouladi/Google Drive/MicrobiotaTransfer/input/"
 setwd(output)
 data<-read.table(paste0(output,"svMeta.txt"),sep = "\t",header=TRUE,check.names=FALSE,na.strings = "NA" ,comment.char="")
 #Slecect the time point
-week=1
+week=4
 
 finishAbundanceIndex<-which(colnames(data)=="Sample")-1
 #Removing low abundant sv
@@ -103,12 +103,12 @@ write.table(DF2,paste0("probabilityforEachSeqWeek",week,"withTaxa.txt"),sep="\t"
 
 # Extracting Legend
 
-theme_set(theme_classic(base_size = 8))
+theme_set(theme_classic())
 SH<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pShared))))+geom_point(aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(title="Shared",x="Rank abundance of SVs in slurries",y="Probability")+scale_size_ordinal(range=c(1,3),labels=c("1-99","100-199","200-279"),name="Rank abundance of SVs in mouse fecal pellets")+
-  theme(legend.text = element_text(size = 8))
+  theme(legend.text = element_text(size = 9),legend.title = element_text(size = 10))
 
-png("legendProbabilitySlurryMice.png", units="in", width=5, height=5,res=300)
+pdf("legendProbabilitySlurryMice.pdf", width=3, height=3)
 legend <- cowplot::get_legend(SH)
 grid.newpage()
 grid.draw(legend)
@@ -126,9 +126,15 @@ S<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pSlurry))))+geom
 M<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pMouse))))+geom_point(col="orchid",aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(x="Rank abundance of SVs in slurries",y="Probability of being only in mouse fecal pellets")+scale_size_ordinal(range=c(1,3))+theme(legend.position = "none")
 
-png(paste0("probabilitySlurryMiceTransferWeek",week,".png"), units="in", width=6, height=6,res=300)
+
+pdf(paste0("probabilitySlurryMiceTransferWeek",week,".pdf"), width=6, height=6)
 plot_grid(SH,M,S, align = 'h',ncol=2,nrow=2,label_size = 12,scale = 0.9)
 dev.off()
+
+#Supplementary figure
+#pdf("probabilitySlurryMiceTransferALLWeeks.pdf",width = 11,height = 11)
+#plot_grid(SH1,M1,S1,SH2,M2,S2,SH3,M3,S3,SH4,M4,S4,ncol=3,nrow=4,label_size = 10,scale = 0.8)
+#dev.off()
 
 
 # High abundant slurry SVs that had lower probbaility of jumping into mice (Supplementary Table 1):
