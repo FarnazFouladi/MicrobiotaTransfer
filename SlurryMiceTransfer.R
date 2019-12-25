@@ -1,7 +1,7 @@
 #Farnaz Fouladi
 #08-18-2019
 
-#This R code generates Figure 5 and Supplementary Figure 2 and Supplementary Figure 3B. 
+#This R code generates Figure 5. 
 
 rm(list =ls())
 
@@ -106,7 +106,7 @@ for (i in myVector){
 }
 dev.off()
 
-png("RhoSlurryMice.png", units="in", width=6.5, height=6.5,res=300)
+pdf("RhoSlurryMicePage1.pdf")
 i=1
 grid.arrange(myList[[i]],myList[[i+1]],myList[[i+2]],myList[[i+3]],myList[[i+4]],myList[[i+5]],myList[[i+6]],myList[[i+7]],myList[[i+8]],ncol=3)
 dev.off()
@@ -127,14 +127,14 @@ for (i in 1:4){
 dev.off()
 
 #Time
-png("RhoSlurryMiceTime.png", units="in", width=5, height=5,res=300)
+pdf("RhoSlurryMiceTime.pdf", width=5, height=5)
 ggplot(aframe,aes(y=rho,x=as.factor(time)))+geom_boxplot()+theme_gray(base_size = 12)+
   labs(x="Week",y="Rho")+ylim(c(-0.7,0.3))
 dev.off()
 result<-aov(lm(rho~factor(time),data = aframe))
 TukeyHSD(result)
 
-png("RhoSlurries.png", units="in", width=5, height=5,res=300) #For publication
+pdf("RhoSlurries.pdf",width = 5,height = 4) #For publication
 i=1
 table1<-aframe[aframe$time==i,]
 table2<-table1[order(table1$rho),]
