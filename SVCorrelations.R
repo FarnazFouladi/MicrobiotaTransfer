@@ -1,7 +1,8 @@
 #Farnaz Fouladi
 #08-18-2019
 
-#This R code generates Supplementary Figure 6. 
+#This R code shows the correlations between SVs and phenotype as well as correlations
+#between slurries and mouse fecal pellets. 
 
 rm(list = ls())
 
@@ -147,7 +148,6 @@ for (i in c(1,10,19)){
 plot_grid(myList[[i+9]],myList[[i+10]],myList[[i+11]],nrow=3,ncol=3,scale = 0.9)
 dev.off()
 
-#png("SignificantCorrelationswithPhenotype.png", units="in", width=8, height=8,res=300)
 pdf("SignificantCorrelationswithPhenotype.pdf",height = 7,width = 10)
 plot_grid(myList[[11]],myList[[17]],myList[[24]],myList[[21]],
           myList[[24]],nrow=2,ncol=3,scale = 0.9)
@@ -158,7 +158,6 @@ plot<-ggplot(myTweekVar,aes(x=SV,y=log10(adjustedSpearman),col=correlationWithHu
   labs(title=paste0(variable,"\nweek= ",week,"\nFisher p-value= ",format(P,digits = 2)),x="Rank abundance of SVs in mice",y="Adjusted p-value")+ theme_classic(base_size = 9)+
   scale_color_manual(values =vals,labels=c("adj.p<0.001","0.001<adj.p<0.01","0.01<adj.p<0.05","adj.p>0.05"),name="Significance of correlations with human donor SVs")+ylim(c(-5,0))
 
-#png("legendCorrelation.png", units="in", width=10, height=10,res=300)
 pdf("legendCorrelation.pdf",height = 2, width = 3)
 legend <- cowplot::get_legend(plot)
 grid.newpage()
