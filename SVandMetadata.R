@@ -109,6 +109,7 @@ data_sub$Sample_type<-sapply(data_sub$Sample.type, function(x){ifelse(x=="Human.
                                                                               return("Mouse fecal pellets"))))})
 data_sub$Sample_type<-factor(data_sub$Sample_type,levels = c("Human fecal samples","Slurries","Mouse fecal pellets"))
 png("SequencingDepth.png", units="in", width=5, height=5,res=300)
+pdf("SequencingDepth.pdf")
 theme_set(theme_classic(base_size = 12))
 ggplot(data = data_sub, aes(x=Sample_type,y=SumReads))+geom_boxplot(fill="grey")+labs(y="Sequence depth")+
   theme(axis.title.x = element_blank())
@@ -180,7 +181,7 @@ diff          lwr        upr     p adj
 4-3  0.009771814 -0.005525873 0.02506950 0.3538129"
 
 #MDS plot on normalised data
-theme_set(theme_classic(base_size = 12))
+theme_set(theme_classic(base_size = 12.5))
 mydata<-data4[data4$Sample.type!="Denver.human" & data4$Sample.type!="Positive.control",]
 finishAbundanceIndex<-which(colnames(mydata)=="Sample")-1
 myMDS<-capscale(mydata[,1:finishAbundanceIndex]~1,distance="bray")
@@ -190,23 +191,33 @@ col=c("red","blue","orchid","purple","black","lightblue","hotpink","cyan","pink"
 df$Sample_type<-factor(df$Sample_type,levels = c("Human.donor","Fecal.slurry","Mouse.feces"))
 
 png("pcoA_1.png", units="in", width=8, height=5,res=300)
-ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=Sample_type))+
+plot1<-ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=Sample_type))+
   scale_colour_manual(values=col[1:length(levels(factor(df$Sample_type)))],labels=c("Human fecal samples","Slurries","Mouse fecal pellets"),name="Sample type")+
-  labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))
+  labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))+lims(y=c(min(df$MDS1),max(df$MDS2)),x=c(min(df$MDS1),max(df$MDS2)))
 dev.off()
 
 
 df$Donor_newName<-sapply(as.character(df$Donor),function(x){
-  if (substr(x,3,4)=="34") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","A"))
-  else if (substr(x,3,4)=="40") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","B"))
-  else if (substr(x,3,4)=="81") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","C"))
-  else if (substr(x,3,4)=="70") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","D"))
+  if (substr(x,3,4)=="34" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","1"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","2"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","3"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","4"))
+  else if (substr(x,3,4)=="34" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","5"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","6"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","7"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","8"))
+  else if (substr(x,3,4)=="34" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","5"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","6"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","7"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","8"))
+  
 })
+
 png("pcoA_2.png", units="in", width=8, height=5,res=300)
-ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(Donor_newName),shape=Sample_type))+
+plot2<-ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(Donor_newName),shape=Sample_type))+
   scale_colour_manual(values=col[1:length(levels(factor(df$Donor_newName)))],name="Donors")+
   scale_shape_manual(values=c(15,16,17),labels=c("Human fecal samples","Slurries","Mouse fecal pellets"),name="Sample type")+
-  labs(x="MDS1 (13.11%)",y="MDS2 (11.43%)")
+  labs(x="MDS1 (13.11%)",y="MDS2 (11.43%)")+lims(y=c(min(df$MDS1),max(df$MDS2)),x=c(min(df$MDS1),max(df$MDS2)))
 dev.off()
 
 adonis(mydata[,1:finishAbundanceIndex]~factor(mydata$Sample.type))
@@ -222,6 +233,10 @@ Total              683   141.314                 1.00000
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 "
 
+#Figure 1 
+pdf("pco1AND2.pdf",height = 6,width = 16,useDingbats=FALSE)
+plot_grid(plot1,plot2,ncol=2,nrow=1,labels = c("A","B"),scale = 0.9)
+dev.off()
 
 #Mouse data and time
 mydata<-data4[data4$Sample.type=="Mouse.feces",]
@@ -231,7 +246,7 @@ percentVariance<-myMDS$CA$eig/sum(eigenvals(myMDS))*100
 df<-data.frame(MDS1=myMDS$CA$u[,1],MDS2=myMDS$CA$u[,2],Donor=mydata$Donor,time=mydata$Week)
 col=c("red","blue","orchid","orange")
 
-png("pcoA_3.png", units="in", width=5, height=5,res=300)
+pdf("pcoA_3.pdf",width = 7,height = 5)
 ggplot(data=df,aes(x=MDS1,y=MDS2))+geom_point(aes(col=factor(time)))+
   scale_colour_manual(values=col[1:length(levels(factor(df$time)))],labels=c("Week 1","Week 2","Week 3","Week 4"),name="Time")+
   labs(x=paste0("MDS1 (",format(percentVariance[1],digits = 4),"%)"),y=paste0("MDS2 (",format(percentVariance[2],digits = 4),"%)"))
