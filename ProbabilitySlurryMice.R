@@ -131,7 +131,7 @@ pdf(paste0("probabilitySlurryMiceTransferWeek",week,".pdf"), width=6, height=6)
 plot_grid(SH,M,S, align = 'h',ncol=2,nrow=2,label_size = 12,scale = 0.9)
 dev.off()
 
-#Supplementary figure
+#Supplementary figure (H1,M1,S1,SH2,M2,S2,SH3,M3,S3,SH4,M4,S4 should be generated)
 #pdf("probabilitySlurryMiceTransferALLWeeks.pdf",width = 11,height = 11)
 #plot_grid(SH1,M1,S1,SH2,M2,S2,SH3,M3,S3,SH4,M4,S4,ncol=3,nrow=4,label_size = 10,scale = 0.8)
 #dev.off()
