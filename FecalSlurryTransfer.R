@@ -79,13 +79,13 @@ for (i in 1:nrow(aframe)){
 
 pdf("RhoFecalSlurry.pdf")
 #For figure in the paper i=1:
-#png("RhoFecalSlurry.png", units="in", width=6, height=6,res=300) #i=1
+pdf("RhoFecalSlurryPage1.pdf")
 for (i in c(1,10,19,28,37,46,55)){
   grid.arrange(myList[[i]],myList[[i+1]],myList[[i+2]],myList[[i+3]],myList[[i+4]],myList[[i+5]],myList[[i+6]],myList[[i+7]],myList[[i+8]],ncol=3,nrow=3) 
 }
 dev.off()
 
-png("RhoFecalSlurryB.png", units="in", width=6, height=6,res=300)
+pdf("RhoFecalSlurryB.pdf",width = 4,height = 4)
 aframe1<-aframe[order(aframe$rho),]
 aframe1$donorName<-as.character(aframe1$donorName)
 aframe1$donorName<-factor(aframe1$donorName,levels = unique(aframe1$donorName))
