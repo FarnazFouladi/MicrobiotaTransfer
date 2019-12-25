@@ -17,13 +17,22 @@ myT<-cbind(sv,data[,(finishAbundanceIndex+1):ncol(data)])
 finishAbundanceIndex<-which(colnames(myT)=="Sample")-1
 
 myT<-myT[myT$Sample.type=="Human.donor" | myT$Sample.type=="Fecal.slurry"| myT$Sample.type=="Mouse.feces", ]
-myT$Donor_newName<-sapply(as.character(myT$Donor),function(x){
-  if (substr(x,3,4)=="34") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","A"))
-  else if (substr(x,3,4)=="40") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","B"))
-  else if (substr(x,3,4)=="81") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","C"))
-  else if (substr(x,3,4)=="70") return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","D"))
-})
 
+myT$Donor_newName<-sapply(as.character(myT$Donor),function(x){
+  if (substr(x,3,4)=="34" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","1"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","2"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","3"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="HC" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","4"))
+  else if (substr(x,3,4)=="34" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","5"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","6"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","7"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="T1" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","8"))
+  else if (substr(x,3,4)=="34" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","5"))
+  else if (substr(x,3,4)=="40" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","6"))
+  else if (substr(x,3,4)=="81" & substr(x,5,6)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","7"))
+  else if (substr(x,3,4)=="70" & substr(x,6,7)=="T2" ) return(paste0(substr(x,nchar(x)-1,nchar(x)),"_","8"))
+  
+})
 
 Donors<-as.character(myT$Donor_newName[myT$Sample.type=="Human.donor"])
 Slurry<-(myT[myT$Sample.type=="Fecal.slurry",])$Slurry.ID1
@@ -123,10 +132,11 @@ summary(aframe4$rho) #0.18-0.99
 
 
 #Histogram of rho coefficients 
-pdf("HistogramRho.pdf")
+#pdf("HistogramRho.pdf")
+#par(mfrow=c(2,2))
 
 #png("HistogramRhoTime4.png", units="in", width=10, height=10,res=300)
-#par(mfrow=c(2,2))
+pdf("HistogramRhoTime4.pdf",width=5, height=5)
 
 for (i in 1:4){
   aframeweek<-aframe[aframe$time==i,]
