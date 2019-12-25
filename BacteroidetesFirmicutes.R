@@ -1,7 +1,8 @@
 #Farnaz Fouladi
 #08-18-2019
 
-#This R code generates Supplementary Figure 3D. 
+#This R code compares Firmicutes:Bacteroidetes ratio between human fecal pellets,
+#slurries, and mouse fecal pellets
 
 rm(list = ls())
 
@@ -23,8 +24,8 @@ data2<-cbind(data1,data[,19:ncol(data)])
 data2<-data2[data2$Sample.type=="Human.donor"|data2$Sample.type=="Fecal.slurry"|data2$Sample.type=="Mouse.feces",]
 data2$variable2<-factor(data2$Sample.type,levels = c("Human.donor","Fecal.slurry","Mouse.feces"))
 
-png("FirmicutestoBacteroidetes.png", units="in", width=5, height=5,res=300)
 
+pdf("FirmicutestoBacteroidetes.pdf",width=5, height=5)
 theme_set(theme_gray(base_size = 12))
 ggplot(data=data2,aes(x=variable2,,y=ratio))+geom_boxplot()+labs(x="",y="log10(Firmicutes:Bacteroidetes)")+
   geom_signif(y_position=c(3.1,3.3,3.5), xmin=c(1,1,2), xmax=c(2,3,3),annotation=c("***","***","***"), tip_length=0,vjust = 0.5,textsize =4)+
