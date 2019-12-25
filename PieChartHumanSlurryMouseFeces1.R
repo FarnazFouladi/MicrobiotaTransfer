@@ -120,6 +120,7 @@ dev.off()
 #pie2(meanPercentage,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
 #title(paste0("Paired analysis\nAverage percentage of SVs present\n in a slurry-mouse fecal pellet pair","\nWeek= ",i),line = -3,cex.main=1.1)
 
+
 #Nonpaired analysis
 for (week in 1:4){
   sharedName<-vector()
