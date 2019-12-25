@@ -20,6 +20,7 @@ write.table(seqtab,file="ForwardReads.txt",sep="\t")
 
 #Assigning taxanomy 
 tax <- assignTaxonomy(seqtab, "/users/ffouladi/silva_nr_v128_train_set.fa.gz", multithread=TRUE)
+tax<-addSpecies(tax, "/users/ffouladi/silva_species_assignment_v128.fa.gz")
 
 saveRDS(tax, "/users/ffouladi/anorexiaMouseTransfer/dada2result/taxForwardReads.rds")
 write.table(tax,file="taxForwardReads.txt",sep="\t")
