@@ -78,16 +78,16 @@ df2<-cbind(mean,sd,df1)
 write.table(df2,"bugFecalSlurry.txt",sep="\t")
 
 #Pie Chart: paired analysis
-meanPercentage<-c(as.numeric(format(df2[8,1],digits = 4)),as.numeric(format(df2[9,1],digits = 3)),as.numeric(format(df2[10,1],digits = 4)))
+meanPercentage<-c(as.numeric(format(df2[8,1],digits = 4)),as.numeric(format(df2[9,1],digits = 4)),as.numeric(format(df2[10,1],digits = 4)))
 deviations<-c(as.numeric(format(df2[8,2],digits = 3)),as.numeric(format(df2[9,2],digits = 3)),as.numeric(format(df2[10,2],digits = 3)))
-slices<-paste(meanPercentage,"\u00b1",deviations,"%",sep="")
+slices<-paste(as.character(meanPercentage),"\u00b1",deviations,"%",sep="")
 labels<-c("Shared","Only in human fecal sample","Only in slurry")
 labels<-paste(labels,"\n",slices)
 
-png("PieChartHumanFecalSlurry.png", units="in", width=13, height=13,res=300)
+pdf("PieChartHumanFecalSlurry.pdf",width=10, height=13)
 par(mfrow=c(2,1),mar=c(2,2,2,2))
 pie2(meanPercentage,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
-title("Paired analysis\n Average percentage of sequence variants\n present in a human fecal sample-slurry pair",line = -3,cex.main=1.1)
+title("Paired analysis\n Average percentage of SVs present\nin a human fecal sample-slurry pair",line = -3,cex.main=1.1)
 
 #Nonpaired analysis
 sharedName<-vector()
@@ -130,7 +130,7 @@ labels<-paste(labels,slices)
 labels<-paste(labels,"%",sep = "")
 
 pie2(slices,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=1.2)
-title("Non-paired analysis\nPercentage of sequence variants\n present in human fecal samples and slurries",line = -3,cex.main=1.2)
+title("Non-paired analysis\nPercentage of SVs present\nin human fecal samples and slurries",line = -3,cex.main=1.2)
 
 dev.off()
 
