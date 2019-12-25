@@ -148,15 +148,15 @@ library(cowplot)
 library(ggsignif)
 theme_set(theme_classic(base_size = 9))
 plot1<-ggplot(df_all,aes(x=week,y=percentBugShared3,color=as.factor(sex)))+geom_boxplot(outlier.shape = NA)+
-  labs(y="Shared (%)",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
-  ylim(0,100)+annotate(geom = "text",x=2,y=70,label="p=0.02",size=2)
+  labs(y="Shared (%)",x="Week",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
+  ylim(0,100)+annotate(geom = "text",x=2,y=70,label="adjusted p=0.09",size=2)
 
 plot2<-ggplot(df_all,aes(x=week,y=percentBugSlurry3,color=as.factor(sex)))+geom_boxplot(outlier.shape = NA)+
-  labs(y="Only in slurry (%)",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
-  ylim(0,100)+annotate(geom = "text",x=2,y=60,label="p=0.01",size=2)
+  labs(y="Only in slurries (%)",x="Week",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
+  ylim(0,100)+annotate(geom = "text",x=2,y=60,label="adjusted p=0.09",size=2)
 
 plot3<-ggplot(df_all,aes(x=week,y=percentBugMouse3,color=as.factor(sex)))+geom_boxplot(outlier.shape = NA)+
-  labs(y="Only in mouse fecal pellets (%)",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
+  labs(y="Only in mouse fecal pellets (%)",x="Week",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
   ylim(0,100)
 
 
@@ -169,20 +169,26 @@ df_ll2<-df_all[df_all$week==2,]
 df_ll3<-df_all[df_all$week==3,]
 df_ll4<-df_all[df_all$week==4,]
 
-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugShared3,df_ll1[df_ll1$sex=="Male",]$percentBugShared3)
-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugShared3,df_ll2[df_ll2$sex=="Male",]$percentBugShared3)
-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugShared3,df_ll3[df_ll3$sex=="Male",]$percentBugShared3)
-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugShared3,df_ll4[df_ll4$sex=="Male",]$percentBugShared3)
+pval<-vector()
+pval[1]<-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugShared3,df_ll1[df_ll1$sex=="Male",]$percentBugShared3)$p.value
+pval[2]<-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugShared3,df_ll2[df_ll2$sex=="Male",]$percentBugShared3)$p.value
+pval[3]<-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugShared3,df_ll3[df_ll3$sex=="Male",]$percentBugShared3)$p.value
+pval[4]<-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugShared3,df_ll4[df_ll4$sex=="Male",]$percentBugShared3)$p.value
 
-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugSlurry3,df_ll1[df_ll1$sex=="Male",]$percentBugSlurry3)
-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugSlurry3,df_ll2[df_ll2$sex=="Male",]$percentBugSlurry3)
-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugSlurry3,df_ll3[df_ll3$sex=="Male",]$percentBugSlurry3)
-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugSlurry3,df_ll4[df_ll4$sex=="Male",]$percentBugSlurry3)
+pval[5]<-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugSlurry3,df_ll1[df_ll1$sex=="Male",]$percentBugSlurry3)$p.value
+pval[6]<-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugSlurry3,df_ll2[df_ll2$sex=="Male",]$percentBugSlurry3)$p.value
+pval[7]<-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugSlurry3,df_ll3[df_ll3$sex=="Male",]$percentBugSlurry3)$p.value
+pval[8]<-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugSlurry3,df_ll4[df_ll4$sex=="Male",]$percentBugSlurry3)$p.value
 
-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugMouse3,df_ll1[df_ll1$sex=="Male",]$percentBugMouse3)
-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugMouse3,df_ll2[df_ll2$sex=="Male",]$percentBugMouse3)
-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugMouse3,df_ll3[df_ll3$sex=="Male",]$percentBugMouse3)
-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugMouse3,df_ll4[df_ll4$sex=="Male",]$percentBugMouse3)
+pval[9]<-t.test(df_ll1[df_ll1$sex=="Female",]$percentBugMouse3,df_ll1[df_ll1$sex=="Male",]$percentBugMouse3)$p.value
+pval[10]<-t.test(df_ll2[df_ll2$sex=="Female",]$percentBugMouse3,df_ll2[df_ll2$sex=="Male",]$percentBugMouse3)$p.value
+pval[11]<-t.test(df_ll3[df_ll3$sex=="Female",]$percentBugMouse3,df_ll3[df_ll3$sex=="Male",]$percentBugMouse3)$p.value
+pval[12]<-t.test(df_ll4[df_ll4$sex=="Female",]$percentBugMouse3,df_ll4[df_ll4$sex=="Male",]$percentBugMouse3)$p.value
+
+p.adjust(pval,method = "BH")
+"
+[1] 0.41456468 0.09316835 0.41456468 0.41456468 0.38359246 0.09316835 0.72415714
+ [8] 0.57123737 0.72415714 0.72415714 0.72415714 0.90984658"
 
 
 
