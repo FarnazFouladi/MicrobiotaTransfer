@@ -103,12 +103,12 @@ write.table(DF2,paste0("probabilityforEachSeqWeek",week,"withTaxaFecalMouse.txt"
 
 # Extracting Legend
 
-theme_set(theme_classic(base_size = 8))
+theme_set(theme_classic(base_size = 7))
 SH<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pShared))))+geom_point(aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(title="Shared",x="Rank abundance of SVs in slurries",y="Probability")+scale_size_ordinal(range=c(1,3),labels=c("1-99","100-199","200-279"),name="Rank abundance of SVs in mouse fecal pellets")+
   theme(legend.text = element_text(size = 8))
 
-png("legendProbabilitySlurryMice.png", units="in", width=5, height=5,res=300)
+pdf("legendProbabilitySlurryMice.pdf", width=2.1, height=1)
 legend <- cowplot::get_legend(SH)
 grid.newpage()
 grid.draw(legend)
@@ -128,6 +128,11 @@ M<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF1$pMouse))))+geom_
 
 png(paste0("probabilitySlurryMiceTransferWeek",week,"HumanFecalMouse.png"), units="in", width=6, height=6,res=300)
 plot_grid(SH,M,S, align = 'h',ncol=2,nrow=2,label_size = 12,scale = 0.9)
+dev.off()
+
+#All time points together (SH1,M1,S1,SH2,M2,S2,SH3,M3,S3,SH4,M4,S4 should be generated)
+pdf("probabilityFecalMiceTransferALLWeeks.pdf",width = 11,height = 11)
+plot_grid(SH1,M1,S1,SH2,M2,S2,SH3,M3,S3,SH4,M4,S4,ncol=3,nrow=4,label_size = 10,scale = 0.8)
 dev.off()
 
 
