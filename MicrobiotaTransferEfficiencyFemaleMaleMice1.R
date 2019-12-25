@@ -129,7 +129,7 @@ aframe_all$time<-factor(aframe_all$time)
 theme_set(theme_classic(base_size = 5))
 plot1<-ggplot(aframe_all,aes(x=time,y=rho,color=as.factor(sex)))+geom_boxplot(outlier.shape = NA)+
   labs(y="Rho",color="")+geom_jitter(shape=16, size =0.2,position = position_jitterdodge(0.1),aes(color=sex))+
-  annotate(geom="text", x=2, y=0.1, label="p=0.04",size=2,
+  annotate(geom="text", x=2, y=0.1, label="adjusted p=0.15",size=2,
            color="black")
   
 
@@ -138,10 +138,12 @@ aframe_all2<-aframe_all[aframe_all$time==2,]
 aframe_all3<-aframe_all[aframe_all$time==3,]
 aframe_all4<-aframe_all[aframe_all$time==4,]
 
-t.test(aframe_all1[aframe_all1$sex=="Female",]$rho,aframe_all1[aframe_all1$sex=="Male",]$rho)
-t.test(aframe_all2[aframe_all2$sex=="Female",]$rho,aframe_all2[aframe_all2$sex=="Male",]$rho)
-t.test(aframe_all3[aframe_all3$sex=="Female",]$rho,aframe_all3[aframe_all3$sex=="Male",]$rho)
-t.test(aframe_all4[aframe_all4$sex=="Female",]$rho,aframe_all4[aframe_all4$sex=="Male",]$rho)
+pval<-vector()
+pval[1]<-t.test(aframe_all1[aframe_all1$sex=="Female",]$rho,aframe_all1[aframe_all1$sex=="Male",]$rho)$p.value
+pval[2]<-t.test(aframe_all2[aframe_all2$sex=="Female",]$rho,aframe_all2[aframe_all2$sex=="Male",]$rho)$p.value
+pval[3]<-t.test(aframe_all3[aframe_all3$sex=="Female",]$rho,aframe_all3[aframe_all3$sex=="Male",]$rho)$p.value
+pval[4]<-t.test(aframe_all4[aframe_all4$sex=="Female",]$rho,aframe_all4[aframe_all4$sex=="Male",]$rho)$p.value
+p.adjust(pval,method = "BH")
 
 pdf("ComparisonOfMaleAndFemaleMice_1.pdf",width = 3,height = 3)
 print(plot1)
