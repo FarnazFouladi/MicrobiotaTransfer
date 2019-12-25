@@ -100,8 +100,8 @@ DF2<-merge(DF1,taxa1,by.x ="names",by.y ="names",all.x = TRUE,sort = FALSE)
 SH<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF$pShared))))+geom_point(aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(title="Shared",x="Rank abundance of SVs in fecal samples",y="Probability")+
   scale_size_ordinal(range=c(1,3),labels=c("6-99","100-199","200-279"),name="Rank abundance of SVs in slurries")+
-  theme(legend.text = element_text(size = 8))
-png("legendProbabilityFecalSlurry.png", units="in", width=5, height=5,res=300)
+  theme(legend.text = element_text(size = 9),legend.title = element_text(size = 10))
+pdf("legendProbabilityFecalSlurry.pdf", width=3, height=3)
 legend <- cowplot::get_legend(SH)
 grid.newpage()
 grid.draw(legend)
@@ -118,6 +118,6 @@ S<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF$pSlurry))))+geom_
 F<-ggplot(data = DF1,aes(x=rank.x,y=as.numeric(as.character(DF$pFecal))))+geom_point(col="blue",aes(size=factor(rankGroup)),shape=1)+
   ylim(y=c(0,1))+labs(x="Rank abundance of SVs in human fecal samples",y="Probability of being only in human fecal samples")+scale_size_ordinal(range=c(1,3))+theme(legend.position = "none")
 
-png("probabilityHumanSlurryTransfer.png", units="in", width=6, height=6,res=300)
+pdf("probabilityHumanSlurryTransfer.pdf", width=6, height=6)
 plot_grid(SH,S,F, align = 'h',ncol=2,nrow=2,label_size = 12,scale = 0.9)
 dev.off()
