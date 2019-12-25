@@ -189,12 +189,17 @@ plot2<-ggplot(df_all1,aes(x=Group,y=percent,color=Filter))+geom_boxplot(outlier.
   labs(y="Percent (%)",x="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(0.2),aes(color=Filter))+
   scale_x_discrete(labels=c("Only in mouse \nfecal pellet","Only in slurry","Shared"))+
   ylim(0,100)+
-  annotate(geom="text",x=c(1,2,3),y=c(90,90,90),label=c("p<0.05","p<0.001","p<0.001"))
+  annotate(geom="text",x=c(1,2,3),y=c(90,90,90),label=c("adjusted p<0.05","adjusted p<0.001","adjusted p<0.001"),
+           size=3)
 
 
 mouse<-df_all1[df_all1$Group=="OnlyInMouse",]
 slurry<-df_all1[df_all1$Group=="OnlyInSlurry",]
 shared<-df_all1[df_all1$Group=="Shared",]
+
+anova(lm(mouse$percent ~ mouse$Filter))
+anova(lm(slurry$percent ~ slurry$Filter))
+anova(lm(shared$percent ~ shared$Filter))
 
 TukeyHSD(aov(lm(mouse$percent ~ mouse$Filter)))
 TukeyHSD(aov(lm(slurry$percent ~ slurry$Filter)))
