@@ -50,10 +50,10 @@ index<-index+1
 
 #Extract Legend
 plot<-ggplot(data=myT1,aes(x=Phylum,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Phylum,labels=c("Actinobacteria (12)","Bacteroidetes (39)","Firmicutes (211)","Proteobacteria (7)","Verrucomicrobia (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.title = element_text(size = 8),legend.key.size = unit(0.7,"line"))+labs(y="rho",x="")+
   labs(title="",fill="Phylum")
 
-png("legendPhylumRho.png", units="in", width=8, height=8,res=300)
+pdf("legendPhylumRho.pdf",height = 1,width = 2)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -68,9 +68,10 @@ index<-index+1
 
 #ExtractLegend
 plot<-ggplot(data=myT1,aes(x=Class,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Class,labels=c("Actinobacteria (1)","Bacilli(3)","Bacteroidia (39)","Betaproteobacteria (4)","Clostridia (188)","Coriobacteriia (11)","Deltaproteobacteria (2)","Erysipelotrichia (18)","Gammaproteobacteria (1)","Negativicutes (2)","Verrucomicrobiae (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.title = element_text(size = 8),legend.key.size = unit(0.7,"line"))+labs(y="rho",x="")+
   labs(title="",fill="Class")
-png("legendClassRho.png", units="in", width=8, height=8,res=300)
+
+pdf("legendClassRho.pdf",height = 2,width = 3)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -85,9 +86,10 @@ index<-index+1
 
 #Extract legend
 plot<-ggplot(data=myT1,aes(x=Order,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Order,labels=c("Bacteroidales (39)","Bifidobacteriales (1)","Burkholderiales (4)","Clostridiales (187)","Coriobacteriales (11)","Desulfovibrionales (2)","Enterobacteriales (1)","Erysipelotrichales (18)","Lactobacillales (3)","Selenomonadales (2)","Verrucomicrobiales (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.key.size = unit(0.8,"line"))+labs(y="rho",x="")+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7),legend.title = element_text(size = 8),legend.key.size = unit(0.7,"line"))+labs(y="rho",x="")+
   labs(title="",fill="Order")
-png("legendOrderRho.png", units="in", width=8, height=8,res=300)
+
+pdf("legendOrderRho.pdf",height = 2,width = 3)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -102,9 +104,10 @@ index<-index+1
 
 #Extract legend
 plot<-ggplot(data=myT1,aes(x=Family,y=rho))+geom_boxplot(outlier.size=0.5,aes(fill=factor(Family,labels=c("Acidaminococcaceae (1)","Alcaligenaceae (3)","Bacteroidaceae (17)","Bifidobacteriaceae (1)","Christensenellaceae (5)","Coriobacteriaceae (11)","Defluviitaleaceae (2)","Desulfovibrionaceae (2)","Enterobacteriaceae (1)","Enterococcaceae (1)","Erysipelotrichaceae (18)","Eubacteriaceae  (3)","Family_XIII (10)","Lachnospiraceae (95)","Lactobacillaceae (1)","Oxalobacteraceae (1)","Peptostreptococcaceae (2)","Porphyromonadaceae (8)","Prevotellaceae (6)","Rikenellaceae (8)","Ruminococcaceae (67)","Streptococcaceae (1)","Veillonellaceae (1)","Verrucomicrobiaceae (2)"))))+
-  theme(axis.text.x = element_blank(),legend.text = element_text(size=7) ,legend.key.size = unit(0.8,"line"))+
+  theme(axis.text.x = element_blank(),legend.text = element_text(size=7) ,legend.title = element_text(size = 8),legend.key.size = unit(0.7,"line"))+
   labs(title="",fill="Family")
-png("legendFamilyRho.png", units="in", width=8, height=8,res=300)
+
+pdf("legendFamilyRho.pdf",height = 2,width = 4)
 legendp <- cowplot::get_legend(plot)
 grid.newpage()
 grid.draw(legendp)
@@ -191,7 +194,7 @@ ddply(data4,.(Class),colwise(sd))[,c(1,4)]
 ddply(data4,.(Family),colwise(mean))[,c(1,4)]
 ddply(data4,.(Family),colwise(sd))[,c(1,4)]
 
-png("boxPlotsforALLtaxaCorrelationPanel.png", units="in", width=10, height=10,res=300)
+pdf("boxPlotsforALLtaxaCorrelationPanel.pdf",height = 10,width = 10)
 plot_grid(myList[[1]],myList[[5]],myList[[9]],myList[[13]],
           myList[[2]],myList[[6]],myList[[10]],myList[[14]],
           myList[[3]],myList[[7]],myList[[11]],myList[[15]],
