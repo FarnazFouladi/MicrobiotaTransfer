@@ -1,7 +1,6 @@
 #Farnaz Fouladi
 #08-18-2019
-
-#This R code generates the pie charts in Figure 4. 
+#This R code generates the pie charts for SVs shared between human and mice fecal pellets. 
 
 rm(list =ls())
 
@@ -21,7 +20,6 @@ myTH<-myT[myT$Sample.type=="Human.donor",]
 myTMouse<-myT[myT$Sample.type=="Mouse.feces",]
 bugs<-c("TotalbugFecal","bugShared","bugFecal","bugMouse","bugNogroup")
 df<-data.frame(bugs)
-
 
 for (week in 1:4){
   myTM<-myTMouse[myTMouse$Week==week,]
@@ -97,7 +95,7 @@ for (i in 1:4)
   meanPercentage<-c(as.numeric(format(df2[8,i],digit=4)),as.numeric(format(df2[9,i],digit=4)),as.numeric(format(df2[10,i],digit=4)))
   deviations<-c(as.numeric(format(df2[8,i+4],digits = 3)),as.numeric(format(df2[9,i+4],digits = 3)),as.numeric(format(df2[10,i+4],digits = 3)))
   slices<-paste(meanPercentage,"\u00b1",deviations,"%",sep="")
-  labels<-c("Shared","Only in human fecal samples","Only in mouse fecal pellets")
+  labels<-c("Shared","Only in human fecal sample","Only in mouse fecal pellet")
   labels<-paste(labels,"\n",slices)
   pie2(meanPercentage,labels,col = c("indianred1","blue","orchid"),radius = 0.6,cex=0.9)
   title(paste0("Week= ",i),line=0,cex=0.1)
