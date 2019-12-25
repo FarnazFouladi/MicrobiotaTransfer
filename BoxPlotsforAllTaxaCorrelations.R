@@ -1,7 +1,7 @@
 #Farnaz Fouladi
 #08-18-2019
 
-#This R code generates Supplementary Figure 5 and Figure 6A. 
+#This R code compares colonization efficiency between taxa.
 
 rm(list = ls())
 
