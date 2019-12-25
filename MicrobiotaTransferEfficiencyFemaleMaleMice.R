@@ -1,7 +1,7 @@
 #Farnaz Fouladi
 #11-22-19
 #Comparing the transfer efficiency between male and female mice. 
-#Comparison of percent of shared, only in slurries, only in mice between female and male mice.
+#Comparison of percent SVs that were shared, dectected only in slurries, and only in mice between female and male mice.
 
 rm(list =ls())
 
@@ -23,13 +23,11 @@ myTMouse<-myT[myT$Sample.type=="Mouse.feces",]
 #Choose female or male mice
 sex="F"
 myTMouse_S<-myTMouse[myTMouse$Sex==sex,]
-
 Slurries<-levels(factor(myTH$Slurry.ID1))
 #Removing slurries that were not used for colonization of mice
 Slurries_S<-Slurries[Slurries %in% as.character(myTMouse_S$Slurry.ID1)]
 bugs<-c("TotalbugSlurry","bugShared","bugSlurry","bugMouse","bugNogroup")
 df<-data.frame(bugs)
-
 
 for (week in 1:4){
   myTM<-myTMouse_S[myTMouse_S$Week==week,]
@@ -158,7 +156,6 @@ plot2<-ggplot(df_all,aes(x=week,y=percentBugSlurry3,color=as.factor(sex)))+geom_
 plot3<-ggplot(df_all,aes(x=week,y=percentBugMouse3,color=as.factor(sex)))+geom_boxplot(outlier.shape = NA)+
   labs(y="Only in mouse fecal pellets (%)",x="Week",color="")+geom_jitter(shape=16, size =0.4,position = position_jitterdodge(),aes(color=sex))+
   ylim(0,100)
-
 
 pdf("ComparisonOfMaleAndFemaleMice.pdf",width = 9,height = 4)
 plot_grid(plot1,plot2,plot3,nrow=1,ncol=3,labels = c("A","B","C"),label_size =12)
