@@ -36,7 +36,7 @@ data2<-apply(data1_relab,2,function(x){log10(x*Average+1)})
 data2<-data2[order(rownames(data2)),]
 
 #Adding metadata
-meta<-read.table(paste0(input,"firstfour_metadata.txt"),check.names=FALSE, na.strings="n.a.", comment.char="", header=TRUE, sep="\t",row.names = 1 )
+meta<-read.table(paste0(input,"metadata_FINAL.txt"),check.names=FALSE, na.strings="n.a.", comment.char="", header=TRUE, sep="\t",row.names = 1 )
 meta1<-meta[intersect(rownames(meta),rownames(data1)),]
 meta1<-meta1[order(rownames(meta1)),]
 data3<-data.frame(data2,Sample=rownames(meta1),meta1,SumReads=sumCountReads$rowSums.data.)
@@ -103,6 +103,7 @@ write.table(data4,"svMeta.txt",sep="\t",row.names = FALSE)
 #write.table(data4,"non-normalizedsvMeta.txt",sep="\t",row.names = FALSE)
 
 #Comparing sequencing depth between human feces, slurries and mouse fecal pellets (non-normalized data)
+data4<-read.table(paste0(output,"non-normalizedsvMeta.txt"),sep="\t",header = TRUE)
 data_sub<-data4[data4$Sample.type=="Human.donor"|data4$Sample.type=="Fecal.slurry"|data4$Sample.type=="Mouse.feces",]
 data_sub$Sample_type<-sapply(data_sub$Sample.type, function(x){ifelse(x=="Human.donor",return("Human fecal samples"),
                                                                       (ifelse(x=="Fecal.slurry",return("Slurries"),
@@ -181,6 +182,7 @@ diff          lwr        upr     p adj
 4-3  0.009771814 -0.005525873 0.02506950 0.3538129"
 
 #MDS plot on normalised data
+data4<-read.table(paste0(output,"svMeta.txt"),sep="\t",header = TRUE)
 theme_set(theme_classic(base_size = 12.5))
 mydata<-data4[data4$Sample.type!="Denver.human" & data4$Sample.type!="Positive.control",]
 finishAbundanceIndex<-which(colnames(mydata)=="Sample")-1
@@ -281,15 +283,10 @@ Number of permutations: 999
 
 Terms added sequentially (first to last)
 
-Df SumsOfSqs MeanSqs F.Model      R2
-factor(mydata$Slurry.ID1)  68    85.072 1.25106  25.415 0.76328
-Residuals                 536    26.385 0.04923         0.23672
-Total                     604   111.457                 1.00000
-Pr(>F)    
-factor(mydata$Slurry.ID1)  0.001 ***
-Residuals                           
-Total                               
+Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+factor(mydata$Slurry.ID1)  75    89.847 1.19796  29.326 0.80612  0.001 ***
+Residuals                 529    21.610 0.04085         0.19388           
+Total                     604   111.457                 1.00000           
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
 "
