@@ -1,8 +1,7 @@
 #Farnaz Fouladi
 #08-18-2019
 
-# This R code prepares the count table and the metadata for downstream analyses
-# and produces MDS plots.
+# This R code prepares the count table and the metadata for downstream analyses and produces MDS plots.
 
 rm(list=ls())
 
