@@ -17,7 +17,8 @@ finishAbundanceIndex<-which(colnames(myT)=="Sample")-1
 
 #Removing Relative mesenteric fat and mesenteric fat
 myT<-myT[,-c(which(colnames(myT)=="Mes.fat.wt"),which(colnames(myT)=="Rel.mes.fat.wt"),
-             which(colnames(myT)=="Brown.fat.wt"),which(colnames(myT)=="Rel.brown.fat.wt"))]
+             which(colnames(myT)=="Brown.fat.wt"),which(colnames(myT)=="Rel.brown.fat.wt"),
+             which(colnames(myT)=="Lean.mass"),which(colnames(myT)=="Lean.mass.pct.change"))]
 myT1<-myT[myT$Sample.type=="Mouse.feces",]
 
 spearman<-vector()
